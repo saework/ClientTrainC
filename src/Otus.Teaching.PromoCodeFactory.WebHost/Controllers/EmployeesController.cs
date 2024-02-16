@@ -45,7 +45,7 @@ namespace Otus.Teaching.PromoCodeFactory.WebHost.Controllers
         }
         
         /// <summary>
-        /// Получить данные сотрудника по Id
+        /// Получить данные сотрудника по id
         /// </summary>
         /// <returns></returns>
         [HttpGet("{id:guid}")]
@@ -55,16 +55,16 @@ namespace Otus.Teaching.PromoCodeFactory.WebHost.Controllers
 
             if (employee == null)
                 return NotFound();
-            
+
             var employeeModel = new EmployeeResponse()
             {
                 Id = employee.Id,
                 Email = employee.Email,
-                Roles = employee.Roles.Select(x => new RoleItemResponse()
+                Role = new RoleItemResponse()
                 {
-                    Name = x.Name,
-                    Description = x.Description
-                }).ToList(),
+                    Name = employee.Role.Name,
+                    Description = employee.Role.Description
+                },
                 FullName = employee.FullName,
                 AppliedPromocodesCount = employee.AppliedPromocodesCount
             };

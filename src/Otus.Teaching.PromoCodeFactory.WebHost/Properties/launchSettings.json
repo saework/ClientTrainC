@@ -3,13 +3,13 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:63661/",
+      "applicationUrl": "http://localhost:64596/",
       "sslPort": 0
     }
   },
   "profiles": {
     "Otus.Teaching.PromocodeFactory.WebHost": {
-      "commandName": "IISExpress",
+      "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "swagger/index.html",
       "environmentVariables": {
