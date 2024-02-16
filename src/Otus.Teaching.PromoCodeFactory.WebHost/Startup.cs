@@ -56,7 +56,7 @@ namespace Otus.Teaching.PromoCodeFactory.WebHost
                 x.DocExpansion = "list";
             });
             
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection(); //!!!
 
             app.UseRouting();
 
