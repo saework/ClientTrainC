@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Otus.Teaching.PromoCodeFactory.Core.Abstractions.Repositories;
 using Otus.Teaching.PromoCodeFactory.Core.Domain.Administration;
 using Otus.Teaching.PromoCodeFactory.WebHost.Models;
+using Microsoft.EntityFrameworkCore; //!!!
 
 namespace Otus.Teaching.PromoCodeFactory.WebHost.Controllers
 {
@@ -18,12 +19,22 @@ namespace Otus.Teaching.PromoCodeFactory.WebHost.Controllers
         : ControllerBase
     {
         private readonly IRepository<Employee> _employeeRepository;
+        private readonly DataContext _dataContext;
 
-        public EmployeesController(IRepository<Employee> employeeRepository)
+        //!!!comm
+        /*        public EmployeesController(IRepository<Employee> employeeRepository)
+                {
+                    _employeeRepository = employeeRepository;
+                }*/
+        //!!!comm
+        //!!!
+        public EmployeesController(IRepository<Employee> employeeRepository, DataContext dataContext)
         {
             _employeeRepository = employeeRepository;
+            _dataContext = dataContext;
         }
-        
+        //!!!
+
         /// <summary>
         /// Получить данные всех сотрудников
         /// </summary>
@@ -31,17 +42,31 @@ namespace Otus.Teaching.PromoCodeFactory.WebHost.Controllers
         [HttpGet]
         public async Task<List<EmployeeShortResponse>> GetEmployeesAsync()
         {
-            var employees = await _employeeRepository.GetAllAsync();
+            //!!!comm
+            /*            var employees = await _employeeRepository.GetAllAsync();
+                        var employeesModelList = employees.Select(x =>
+                            new EmployeeShortResponse()
+                            {
+                                Id = x.Id,
+                                Email = x.Email,
+                                FullName = x.FullName,
+                            }).ToList();
 
-            var employeesModelList = employees.Select(x => 
-                new EmployeeShortResponse()
-                    {
-                        Id = x.Id,
-                        Email = x.Email,
-                        FullName = x.FullName,
-                    }).ToList();
+                        return employeesModelList;*/
+            //!!!comm
+            //!!!
+
+            var employeesModelList = await _dataContext.Employees.Select(x =>
+                                        new EmployeeShortResponse()
+                                        {
+                                            Id = x.Id,
+                                            Email = x.Email,
+                                            FullName = x.FullName,
+                                        }).ToListAsync();
 
             return employeesModelList;
+
+            //!!!
         }
         
         /// <summary>
@@ -51,7 +76,8 @@ namespace Otus.Teaching.PromoCodeFactory.WebHost.Controllers
         [HttpGet("{id:guid}")]
         public async Task<ActionResult<EmployeeResponse>> GetEmployeeByIdAsync(Guid id)
         {
-            var employee = await _employeeRepository.GetByIdAsync(id);
+            //var employee = await _employeeRepository.GetByIdAsync(id); //!!!comm
+            var employee = await _dataContext.Employees.FirstOrDefaultAsync(x => x.Id == id); //!!!
 
             if (employee == null)
                 return NotFound();
@@ -60,11 +86,12 @@ namespace Otus.Teaching.PromoCodeFactory.WebHost.Controllers
             {
                 Id = employee.Id,
                 Email = employee.Email,
-                Role = new RoleItemResponse()
-                {
-                    Name = employee.Role.Name,
-                    Description = employee.Role.Description
-                },
+                /*                Role = new RoleItemResponse()
+                                {
+                                    Name = employee.Role.Name,
+                                    Description = employee.Role.Description
+                                },*/
+                Role = null,
                 FullName = employee.FullName,
                 AppliedPromocodesCount = employee.AppliedPromocodesCount
             };
