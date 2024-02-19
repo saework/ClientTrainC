@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Otus.Teaching.PromoCodeFactory.Core.Abstractions.Repositories;
 using Otus.Teaching.PromoCodeFactory.Core.Domain.Administration;
 using Otus.Teaching.PromoCodeFactory.WebHost.Models;
+using Microsoft.EntityFrameworkCore; //!!!
 
 namespace Otus.Teaching.PromoCodeFactory.WebHost.Controllers
 {
@@ -15,13 +16,24 @@ namespace Otus.Teaching.PromoCodeFactory.WebHost.Controllers
     [Route("api/v1/[controller]")]
     public class RolesController
     {
-        private readonly IRepository<Role> _rolesRepository;
+        //!!!comm
+        /*        private readonly IRepository<Role> _rolesRepository;
 
-        public RolesController(IRepository<Role> rolesRepository)
+                public RolesController(IRepository<Role> rolesRepository)
+                {
+                    _rolesRepository = rolesRepository;
+                }*/
+        //!!!comm
+        //!!!
+        private readonly DataContext _dataContext;
+
+        public RolesController(DataContext dataContext)
         {
-            _rolesRepository = rolesRepository;
+            //_employeeRepository = employeeRepository; //!!!comm
+            _dataContext = dataContext;
         }
-        
+        //!!!
+
         /// <summary>
         /// Получить все доступные роли сотрудников
         /// </summary>
@@ -29,7 +41,8 @@ namespace Otus.Teaching.PromoCodeFactory.WebHost.Controllers
         [HttpGet]
         public async Task<IEnumerable<RoleItemResponse>> GetRolesAsync()
         {
-            var roles = await _rolesRepository.GetAllAsync();
+            //var roles = await _rolesRepository.GetAllAsync(); //!!!comm
+            var roles = await _dataContext.Roles.ToListAsync(); //!!!
 
             var rolesModelList = roles.Select(x => 
                 new RoleItemResponse()

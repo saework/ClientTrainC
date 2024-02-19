@@ -18,7 +18,7 @@ namespace Otus.Teaching.PromoCodeFactory.WebHost.Controllers
     public class EmployeesController
         : ControllerBase
     {
-        private readonly IRepository<Employee> _employeeRepository;
+        //private readonly IRepository<Employee> _employeeRepository; //!!!comm
         private readonly DataContext _dataContext;
 
         //!!!comm
@@ -28,9 +28,10 @@ namespace Otus.Teaching.PromoCodeFactory.WebHost.Controllers
                 }*/
         //!!!comm
         //!!!
-        public EmployeesController(IRepository<Employee> employeeRepository, DataContext dataContext)
+        //public EmployeesController(IRepository<Employee> employeeRepository, DataContext dataContext)
+        public EmployeesController(DataContext dataContext)
         {
-            _employeeRepository = employeeRepository;
+            //_employeeRepository = employeeRepository; //!!!comm
             _dataContext = dataContext;
         }
         //!!!

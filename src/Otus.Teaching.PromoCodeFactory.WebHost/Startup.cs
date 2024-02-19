@@ -34,19 +34,16 @@ namespace Otus.Teaching.PromoCodeFactory.WebHost
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddScoped(typeof(IRepository<Employee>), (x) => 
+/*            services.AddScoped(typeof(IRepository<Employee>), (x) => 
                 new InMemoryRepository<Employee>(FakeDataFactory.Employees));
             services.AddScoped(typeof(IRepository<Role>), (x) => 
                 new InMemoryRepository<Role>(FakeDataFactory.Roles));
             services.AddScoped(typeof(IRepository<Preference>), (x) => 
                 new InMemoryRepository<Preference>(FakeDataFactory.Preferences));
             services.AddScoped(typeof(IRepository<Customer>), (x) => 
-                new InMemoryRepository<Customer>(FakeDataFactory.Customers));
+                new InMemoryRepository<Customer>(FakeDataFactory.Customers));*/
 
-            /*            services.AddDbContext<DataContext>(x =>
-                        {
-                            x.UseSqlite("Filename=test.sqlite");
-                        });*/
+
             //!!!
             var connection = Configuration.GetConnectionString("Default");
             services.AddDbContext<DataContext>(options => options.UseSqlite(connection));
